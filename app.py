@@ -57,7 +57,7 @@ if show_examples:
     st.table(pd.DataFrame({'examples': examples}))
 
 # --- Simple Search QnA ---
-st.markdown('<div class="subheader-green">Tanya MyGPT (database QnA)</div>', unsafe_allow_html=True)
+st.markdown('<div class="subheader-green">Tanya MyGPT</div>', unsafe_allow_html=True)
 user_question = st.text_input("Tanya apa aja seputar fashion / hijab:")
 
 if user_question:
