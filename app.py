@@ -8,7 +8,6 @@ examples = qna_df['Jawaban'].tolist()  # gunakan jawaban sebagai reference conte
 
 # --- Streamlit UI ---
 st.set_page_config(page_title="MyGPT - Content Agent", layout="centered")
-git add .
 st.markdown("Masukkan pertanyaan → agent ambil referensi → generate variasi → rank → simpan hasil.")
 
 # --- Sidebar Settings ---
