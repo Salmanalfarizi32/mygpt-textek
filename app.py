@@ -34,12 +34,9 @@ st.markdown('<div class="big-title">Textek.id</div>', unsafe_allow_html=True)
 qna_df = pd.read_csv("qna.csv")
 examples = qna_df['Jawaban'].tolist()  # gunakan jawaban sebagai reference content
 
-<<<<<<< HEAD
 # --- Streamlit UI ---
 st.set_page_config(page_title="MyGPT - Content Agent", layout="centered")
 
-=======
->>>>>>> 7b8970e (Update UI: tambah Textek.id header + tema hijau-putih)
 # --- Sidebar Settings ---
 with st.sidebar:
     st.header("Settings")
