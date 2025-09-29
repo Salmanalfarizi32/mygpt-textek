@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import random
 
-# --- Page config & custom style (letakkan di sini paling atas) ---
+# --- Page config & custom style ---
 st.set_page_config(
     page_title="Textek.id",
     page_icon="🟢",
@@ -13,29 +13,37 @@ st.set_page_config(
 st.markdown(
     """
     <style>
+    /* Header utama responsive */
     .big-title {
-        font-size: 60px;
-        color: #0b6623;  /* hijau gelap */
+        font-size: 10vw;  /* responsive, otomatis kecil di HP */
+        color: #0b6623;  
         font-weight: bold;
         text-align: center;
         margin-top: 50px;
+        margin-bottom: 20px;
     }
+    /* Subheader hijau konsisten */
+    .subheader-green {
+        color: #0b6623 !important;
+        font-weight: bold;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+    /* Background putih */
     .stApp {
-        background-color: #ffffff;  /* putih */
+        background-color: #ffffff;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
 
+# --- Header utama ---
 st.markdown('<div class="big-title">Textek.id</div>', unsafe_allow_html=True)
 
 # --- Load QnA database ---
 qna_df = pd.read_csv("qna.csv")
-examples = qna_df['Jawaban'].tolist()  # gunakan jawaban sebagai reference content
-
-# --- Streamlit UI ---
-st.set_page_config(page_title="MyGPT - Content Agent", layout="centered")
+examples = qna_df['Jawaban'].tolist()
 
 # --- Sidebar Settings ---
 with st.sidebar:
@@ -45,11 +53,11 @@ with st.sidebar:
     show_examples = st.button("Lihat semua jawaban tersimpan")
 
 if show_examples:
-    st.subheader("Jawaban dari QnA database")
+    st.markdown('<div class="subheader-green">Jawaban dari QnA database</div>', unsafe_allow_html=True)
     st.table(pd.DataFrame({'examples': examples}))
 
 # --- Simple Search QnA ---
-st.subheader("Tanya MyGPT (database QnA)")
+st.markdown('<div class="subheader-green">Tanya MyGPT (database QnA)</div>', unsafe_allow_html=True)
 user_question = st.text_input("Tanya apa aja seputar fashion / hijab:")
 
 if user_question:
@@ -83,7 +91,8 @@ def rank_variations(variations):
     scored.sort(key=lambda x: x[1], reverse=True)
     return [v for v,_ in scored]
 
-st.subheader("Agent Content Generator")
+# --- Agent Content Generator ---
+st.markdown('<div class="subheader-green">Agent Content Generator</div>', unsafe_allow_html=True)
 prompt = st.text_area("Masukkan contoh konten sukses / brief:", height=120)
 
 if st.button("Run Agent"):
