@@ -2,13 +2,44 @@ import streamlit as st
 import pandas as pd
 import random
 
+# --- Page config & custom style (letakkan di sini paling atas) ---
+st.set_page_config(
+    page_title="Textek.id",
+    page_icon="🟢",
+    layout="centered",
+    initial_sidebar_state="collapsed"
+)
+
+st.markdown(
+    """
+    <style>
+    .big-title {
+        font-size: 60px;
+        color: #0b6623;  /* hijau gelap */
+        font-weight: bold;
+        text-align: center;
+        margin-top: 50px;
+    }
+    .stApp {
+        background-color: #ffffff;  /* putih */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+st.markdown('<div class="big-title">Textek.id</div>', unsafe_allow_html=True)
+
 # --- Load QnA database ---
 qna_df = pd.read_csv("qna.csv")
 examples = qna_df['Jawaban'].tolist()  # gunakan jawaban sebagai reference content
 
+<<<<<<< HEAD
 # --- Streamlit UI ---
 st.set_page_config(page_title="MyGPT - Content Agent", layout="centered")
 
+=======
+>>>>>>> 7b8970e (Update UI: tambah Textek.id header + tema hijau-putih)
 # --- Sidebar Settings ---
 with st.sidebar:
     st.header("Settings")
