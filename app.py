@@ -3,18 +3,7 @@ import pandas as pd
 import random
 from rapidfuzz import process
 
-hide_menu_style = """
-    <style>
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
-    [data-testid="stStatusWidget"] {visibility: hidden;} /* tombol manage app */
-    </style>
-"""
-import streamlit as st
-st.markdown(hide_menu_style, unsafe_allow_html=True)
-
-# --- Page config & custom style ---
+# --- Page config (harus paling atas) ---
 st.set_page_config(
     page_title="Textek.id",
     page_icon="🟢",
@@ -22,36 +11,32 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-st.markdown(
-    """
-    <style>
-    .big-title {
-        font-size: 60px;
-        color: #0b6623;  /* hijau gelap */
-        font-weight: bold;
-        text-align: center;
-        margin-top: 50px;
-    }
-    .stApp {
-        background-color: #ffffff;  /* putih */
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+# --- Hide Streamlit default UI elements ---
+hide_style = """
+<style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+[data-testid="stStatusWidget"] {visibility: hidden;} /* Manage App button */
+.stApp {background-color: #ffffff;}
+.big-title {font-size: 60px; color: #0b6623; font-weight: bold; text-align: center; margin-top: 50px;}
+</style>
+"""
+st.markdown(hide_style, unsafe_allow_html=True)
 
+# --- Title ---
 st.markdown('<div class="big-title">Textek.id</div>', unsafe_allow_html=True)
 
 # --- Load QnA database ---
 qna_df = pd.read_csv("qna.csv")
-examples = qna_df['Jawaban'].dropna().tolist()  # safety biar gak error kalau ada NaN
+examples = qna_df['Jawaban'].dropna().tolist()  # safety biar ga error
 
 # --- Sidebar Settings ---
 with st.sidebar:
     st.header("⚙️ Settings")
     n_examples = st.number_input("Jumlah contoh referensi", min_value=1, max_value=10, value=3)
     n_variations = st.number_input("Jumlah variasi di-generate", min_value=1, max_value=10, value=3)
-    
+
 # --- Simple Search QnA ---
 st.subheader("Tanya MyGPT")
 user_question = st.text_input("Tanya apa aja seputar fashion / hijab:")
@@ -64,7 +49,7 @@ if user_question:
     else:
         st.write("Maaf, aku belum punya jawaban di database. Coba tanyakan dengan kata lain.")
 
-# --- Agent Prototype (variations generator) ---
+# --- Agent Content Generator ---
 def retrieve_examples(n=3):
     return random.sample(examples, min(n, len(examples)))
 
@@ -87,7 +72,6 @@ def rank_variations(variations):
     scored.sort(key=lambda x: x[1], reverse=True)
     return [v for v,_ in scored]
 
-# --- Run Agent ---
 st.subheader("Agent Content Generator")
 prompt = st.text_area("Masukkan contoh konten sukses / brief:", height=120)
 
