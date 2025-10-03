@@ -37,15 +37,10 @@ examples = qna_df['Jawaban'].dropna().tolist()  # safety biar gak error kalau ad
 
 # --- Sidebar Settings ---
 with st.sidebar:
-    st.header("Settings")
+    st.header("⚙️ Settings")
     n_examples = st.number_input("Jumlah contoh referensi", min_value=1, max_value=10, value=3)
     n_variations = st.number_input("Jumlah variasi di-generate", min_value=1, max_value=10, value=3)
-    show_examples = st.button("Lihat semua jawaban tersimpan")
-
-if show_examples:
-    st.subheader("Jawaban dari QnA database")
-    st.table(pd.DataFrame({'examples': examples}))
-
+    
 # --- Simple Search QnA ---
 st.subheader("Tanya MyGPT")
 user_question = st.text_input("Tanya apa aja seputar fashion / hijab:")
