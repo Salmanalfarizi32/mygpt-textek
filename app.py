@@ -80,7 +80,7 @@ def rank_variations(variations):
 st.subheader("Agent Content Generator")
 prompt = st.text_area("Masukkan contoh konten sukses / brief:", height=120)
 
-if st.button("Run Agent"):
+if st.button("Run"):
     if not prompt.strip():
         st.error("Isi prompt dulu.")
     else:
