@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import random
+from rapidfuzz import process
 
 # --- Page config & custom style ---
 st.set_page_config(
@@ -13,37 +14,26 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    /* Header utama responsive */
     .big-title {
-        font-size: 10vw;  /* responsive, otomatis kecil di HP */
-        color: #0b6623;  
+        font-size: 60px;
+        color: #0b6623;  /* hijau gelap */
         font-weight: bold;
         text-align: center;
         margin-top: 50px;
-        margin-bottom: 20px;
     }
-    /* Subheader hijau konsisten */
-    .subheader-green {
-        color: #0b6623 !important;
-        font-weight: bold;
-        margin-top: 20px;
-        margin-bottom: 10px;
-    }
-    /* Background putih */
     .stApp {
-        background-color: #ffffff;
+        background-color: #ffffff;  /* putih */
     }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# --- Header utama ---
 st.markdown('<div class="big-title">Textek.id</div>', unsafe_allow_html=True)
 
 # --- Load QnA database ---
 qna_df = pd.read_csv("qna.csv")
-examples = qna_df['Jawaban'].tolist()
+examples = qna_df['Jawaban'].dropna().tolist()  # safety biar gak error kalau ada NaN
 
 # --- Sidebar Settings ---
 with st.sidebar:
@@ -53,11 +43,11 @@ with st.sidebar:
     show_examples = st.button("Lihat semua jawaban tersimpan")
 
 if show_examples:
-    st.markdown('<div class="subheader-green">Jawaban dari QnA database</div>', unsafe_allow_html=True)
+    st.subheader("Jawaban dari QnA database")
     st.table(pd.DataFrame({'examples': examples}))
 
 # --- Simple Search QnA ---
-st.markdown('<div class="subheader-green">Tanya MyGPT</div>', unsafe_allow_html=True)
+st.subheader("Tanya MyGPT")
 user_question = st.text_input("Tanya apa aja seputar fashion / hijab:")
 
 if user_question:
@@ -91,8 +81,8 @@ def rank_variations(variations):
     scored.sort(key=lambda x: x[1], reverse=True)
     return [v for v,_ in scored]
 
-# --- Agent Content Generator ---
-st.markdown('<div class="subheader-green">Agent Content Generator</div>', unsafe_allow_html=True)
+# --- Run Agent ---
+st.subheader("Agent Content Generator")
 prompt = st.text_area("Masukkan contoh konten sukses / brief:", height=120)
 
 if st.button("Run Agent"):
