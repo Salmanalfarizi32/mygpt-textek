@@ -3,6 +3,17 @@ import pandas as pd
 import random
 from rapidfuzz import process
 
+hide_menu_style = """
+    <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    [data-testid="stStatusWidget"] {visibility: hidden;} /* tombol manage app */
+    </style>
+"""
+import streamlit as st
+st.markdown(hide_menu_style, unsafe_allow_html=True)
+
 # --- Page config & custom style ---
 st.set_page_config(
     page_title="Textek.id",
